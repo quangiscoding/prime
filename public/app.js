@@ -1,3 +1,5 @@
+console.log("app.js is loaded");
+
 async function checkPrime() {
   const num = document.getElementById("num").value;
 
