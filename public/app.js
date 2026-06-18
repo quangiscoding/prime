@@ -1,12 +1,17 @@
-console.log("app.js is loaded");
+function formatNumber(str) {
+  return str.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
 async function checkPrime() {
-  const num = document.getElementById("num").value;
+  const input = document.getElementById("num");
+  const num = input.value;
 
   const res = await fetch(`/api/v1/prime/${num}`);
   const data = await res.json();
 
   document.getElementById("result").innerText = data.error
     ? data.error
-    : `${data.number} is ${data.isPrime ? "prime" : "not prime"}`;
+    : `${formatNumber(data.number)} is ${data.isPrime ? "prime" : "not prime"}`;
+
+  input.value = "";
 }

@@ -1,0 +1,9 @@
+body {
+  width: 100%;
+  height: 100%;
+}
+#result {
+  max-width: 70%;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
