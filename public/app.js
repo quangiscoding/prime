@@ -9,9 +9,17 @@ async function checkPrime() {
   const res = await fetch(`/api/v1/prime/${num}`);
   const data = await res.json();
 
-  document.getElementById("result").innerText = data.error
-    ? data.error
-    : `${formatNumber(data.number)} is ${data.isPrime ? "prime" : "not prime"}`;
+  const numberEl = document.querySelector(".number");
+  const resultEl = document.getElementById("result");
+
+  if (data.error) {
+    numberEl.textContent = "";
+    resultEl.textContent = data.error;
+  } else {
+    numberEl.textContent = formatNumber(data.number);
+    resultEl.textContent = data.isPrime ? "is prime ✅" : "is not prime ❌";
+  }
 
   input.value = "";
+  input.focus();
 }
