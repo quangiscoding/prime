@@ -4,15 +4,27 @@ const rateLimit = require("express-rate-limit");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Trust proxy (important for Railway / Render)
+app.set("trust proxy", 1);
+
 // Rate limiting
 const limiter = rateLimit({
-  windowMs: 60 * 1000, // 1 minute
-  max: 20, // 20 requests/minute per IP
+  windowMs: 60 * 1000,
+  max: 20,
   standardHeaders: true,
   legacyHeaders: false,
 });
 
 app.use(limiter);
+
+// Health check / root route (FIX for "Cannot GET /")
+app.get("/", (req, res) => {
+  res.json({
+    status: "ok",
+    service: "prime-api",
+    usage: "/api/v1/prime/17",
+  });
+});
 
 function isPrime(n) {
   if (n < 2) return false;
@@ -41,6 +53,7 @@ app.get("/api/v1/prime/:number", (req, res) => {
   });
 });
 
+// IMPORTANT for Railway
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
