@@ -17,14 +17,8 @@ const limiter = rateLimit({
 
 app.use(limiter);
 
-// Health check / root route (FIX for "Cannot GET /")
-app.get("/", (req, res) => {
-  res.json({
-    status: "ok",
-    service: "prime-api",
-    usage: "/api/v1/prime/17",
-  });
-});
+const path = require("path");
+app.use(express.static(path.join(__dirname, "public")));
 
 function isPrime(n) {
   if (n < 2) return false;
